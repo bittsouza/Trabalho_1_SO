@@ -11,14 +11,15 @@
 
 int main()
 {
-  
-		int linstenfd = 0, connfd = 0;
+
+		int listenfd = 0, connfd = 0;
+		int message = 0;
 		struct sockaddr_in serv_addr;
 
-		char senfBuff[1025];
+		char sendBuff[1025];
 		time_t ticks;
 
-		listenfd = ( AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		listenfd = socket( AF_INET, SOCK_STREAM, IPPROTO_TCP);
 		memset(&serv_addr, '0', sizeof(serv_addr));
 		memset(sendBuff, '0', sizeof(sendBuff));
 
@@ -29,17 +30,25 @@ int main()
 		bind(listenfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
 
 		listen(listenfd, 10);
+		
 
 		while(1)
 		{
 			connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
 
 			ticks = time(NULL);
-			snprint(sendBuff, sizeof(sendBuff), "%.24s\r\n", ctime(&ticks));
+			snprintf(sendBuff, sizeof(sendBuff), "%.24s\r\n", ctime(&ticks));
 			write(connfd, sendBuff, strlen(sendBuff));
+
+            message = read(listenfd, sendBuff, strlen(sendBuff));
+            printf ("/n %p", ( void * )message);
+            
+            
+            
 
 			close(connfd);
 			sleep(1);
 		}
-  
+
 }
+
