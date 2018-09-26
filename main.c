@@ -36,18 +36,20 @@ int main()
 		{
 			connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
 
+				printf("Conexão realizada!\n");
+
 			ticks = time(NULL);
 			
             
             snprintf(sendBuff, sizeof(sendBuff), "%.24s\r\n", ctime(&ticks));
-			read(connfd, sendBuff, strlen(sendBuff));
+ //			write(connfd, sendBuff, strlen(sendBuff));
 
 			//bzero(sendBuff, sizeof(sendBuff));
 
 
             int bytesLidos = read(connfd, sendBuff, strlen(sendBuff));
             
-            for(int i = 0 ; i < bytesLidos ; i++)
+            for(int i = 0 ; i < (bytesLidos) ; i++)
             	printf ("%c", sendBuff[i]);
             
 
