@@ -54,7 +54,7 @@ Não é necessário criar um aplicativo cliente. Você pode usar o aplicativo ne
 pthread_mutex_t mutex; // precisa ser global!
 char* listDir();
 
-void *ls(void *threadid, char msg){
+void *trat(void *threadid){
    	int *connfd = (int *)threadid;
    	char sendBuff[1025];
 
@@ -174,7 +174,8 @@ int main(int argc, char **argv){
 		*connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
 			
 		printf("Socket criado: %d\n", *connfd);
-		pthread_create(&thread, NULL, ls, connfd);		
+		pthread_create(&thread, NULL, trat, connfd);		
+		pthread_exit(connfd);
 	}
 	return 0;
 }
